@@ -1,2 +1,3 @@
 #!/usr/bin/python3
-print(*map(chr, range(65, 91)), sep='')
+alphabet = ''.join(map(chr, range(65, 91)))
+print(alphabet)
