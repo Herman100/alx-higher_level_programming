@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 def update_dictionary(a_dictionary, key, value):
-  """
+    """
   Replaces or adds key/value in a dictionary.
 
   Args:
@@ -12,10 +12,9 @@ def update_dictionary(a_dictionary, key, value):
     The updated dictionary.
   """
 
-  if key in a_dictionary:
-    a_dictionary[key] = value
-  else:
-    a_dictionary[key] = value
+    if key in a_dictionary:
+        a_dictionary[key] = value
+    else:
+        a_dictionary[key] = value
 
-  return a_dictionary
-
+    return a_dictionary
