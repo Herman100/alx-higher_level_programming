@@ -1,37 +1,46 @@
+#!/usr/bin/python3
+
+"""
+This module defines the MagicClass which represents a circle with radius.
+"""
+
+import math
+
+
 class MagicClass:
     """
-    A class that defines a magic circle.
-
-    Attributes:
-        radius: The radius of the circle.
+    The MagicClass represents a circle with a given radius.
     """
 
-    def __init__(self, radius):
+    def __init__(self, radius=0):
         """
-        Initialize a MagicClass object.
+        Initializes a MagicClass instance with a radius.
 
         Args:
-            radius: The radius of the circle.
-        """
-        if not isinstance(radius, (int, float)):
-            raise TypeError('radius must be a number')
+            radius (int or float): The radius of the circle.
 
+        Raises:
+            TypeError: If the radius is not a number.
+        """
+        self.__radius = 0
+        if type(radius) is not int and type(radius) is not float:
+            raise TypeError('radius must be a number')
         self.__radius = radius
 
     def area(self):
         """
-        Calculate the area of the circle.
+        Calculates and returns the area of the circle.
 
         Returns:
-            The area of the circle.
+            float: The area of the circle.
         """
-        return math.pi * self.__radius ** 2
+        return self.__radius ** 2 * math.pi
 
     def circumference(self):
         """
-        Calculate the circumference of the circle.
+        Calculates and returns the circumference of the circle.
 
         Returns:
-            The circumference of the circle.
+            float: The circumference of the circle.
         """
         return 2 * math.pi * self.__radius
