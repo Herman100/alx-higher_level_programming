@@ -1,103 +1,61 @@
 #!/usr/bin/python3
-"""N Queens problem solver"""
-
-
+"""N queens problem"""
 import sys
 
 
-def solve_nqueens(N):
-    """
-    Solve the N Queens problem and print all possible solutions.
+def is_valid(board, row, col):
+    """Check if a queen can be placed on board[row][col]"""
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
 
-    Args:
-        N (int): The size of the chessboard and the number of queens.
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-    Raises:
-        ValueError: If N is not an integer or is less than 4.
+    for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-    Returns:
-        list: A list of all possible solutions to the N Queens problem.
-    """
-    if not isinstance(N, int):
-        raise ValueError("N must be a number")
-
-    if N < 4:
-        raise ValueError("N must be at least 4")
-
-    def is_safe(board, row, col):
-        """
-        Check if it's safe to place a queen at a given position on the board.
-
-        Args:
-            board (list): The current state of the chessboard.
-            row (int): The row index to check.
-            col (int): The column index to check.
-
-        Returns:
-            bool: True if it's safe to place a queen, False otherwise.
-        """
-        # Check if there is a queen in the same column
-        for i in range(row):
-            if board[i] == col or \
-                    board[i] + i == col + row or \
-                    board[i] - i == col - row:
-                return False
-
-        return True
-
-    def solve(board, row, solutions):
-        """
-        Recursive function to solve the N Queens problem.
-
-        Args:
-            board (list): The current state of the chessboard.
-            row (int): The row index to start placing the queens.
-            solutions (list): A list to store the solutions.
-
-        Returns:
-            list: A list of all possible solutions to the N Queens problem.
-        """
-        if row == N:
-            # All queens have been placed, add the solution to the result
-            solution = []
-            for i in range(N):
-                queen_pos = [i, board[i]]
-                solution.append(queen_pos)
-            solutions.append(solution)
-            return solutions
-
-        for col in range(N):
-            if is_safe(board, row, col):
-                # Place a queen at the current position
-                board[row] = col
-
-                # Recursively solve the subproblem for the next row
-                solutions = solve(board, row + 1, solutions)
-
-        return solutions
-
-    # Initialize an empty chessboard
-    board = [-1] * N
-
-    # Solve the N Queens problem
-    solutions = solve(board, 0, [])
-
-    # Print the solutions
-    for solution in solutions:
-        print(solution)
-
-    return solutions
+    return True
 
 
-if __name__ == "__main__":
-    # Check the command-line arguments
+def solve_nq(board, col, solutions):
+    """Solve the N queens problem"""
+    if col == len(board):
+        solution = []
+        for i in range(len(board)):
+            for j in range(len(board)):
+                if board[i][j] == 1:
+                    solution.append([i, j])
+        solutions.append(solution)
+        return
+
+    for i in range(len(board)):
+        if is_valid(board, i, col):
+            board[i][col] = 1
+            solve_nq(board, col + 1, solutions)
+            board[i][col] = 0
+
+
+if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
 
     try:
-        N = int(sys.argv[1])
-        solve_nqueens(N)
+        n = int(sys.argv[1])
     except ValueError:
         print("N must be a number")
         sys.exit(1)
+
+    if n < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    board = [[0 for j in range(n)] for i in range(n)]
+    solutions = []
+    solve_nq(board, 0, solutions)
+    solutions.sort()
+    for solution in solutions:
+        print(solution)
