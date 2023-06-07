@@ -1,0 +1,41 @@
+# 101-lazy_matrix_mul.txt
+
+"""
+This is a test file for the lazy_matrix_mul function.
+
+>>> import numpy as np
+>>> lazy_matrix_mul = __import__('101-lazy_matrix_mul').lazy_matrix_mul
+>>> m_a = [[1, 2], [3, 4]]
+>>> m_b = [[1, 2], [3, 4]]
+>>> np.array_equal(lazy_matrix_mul(m_a, m_b), np.array([[7, 10], [15, 22]]))
+True
+>>> lazy_matrix_mul([[1, 2]], [[1], [2]])
+array([[5]])
+>>> lazy_matrix_mul([[1]], [[1]])
+array([[1]])
+>>> lazy_matrix_mul([], [])
+Traceback (most recent call last):
+...
+ValueError: m_a can't be empty and m_b can't be empty
+>>> lazy_matrix_mul([[1]], [])
+Traceback (most recent call last):
+...
+ValueError: m_a can't be empty and m_b can't be empty
+>>> lazy_matrix_mul([[1]], [[1], [2]])
+Traceback (most recent call last):
+...
+ValueError: m_a and m_b can't be multiplied
+>>> lazy_matrix_mul([[1]], 'not a matrix')
+Traceback (most recent call last):
+...
+TypeError: m_b should be a list of lists
+>>> lazy_matrix_mul('not a matrix', [[1]])
+Traceback (most recent call last):
+...
+TypeError: m_a should be a list of lists
+
+"""
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testfile("101-lazy_matrix_mul.txt")
