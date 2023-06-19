@@ -28,39 +28,27 @@ class Rectangle(Base):
                 'height': self.height, 'x': self.x, 'y': self.y}
 
     def update(self, *args, **kwargs):
-        if len(args) >= 1:
-            self.id = args[0]
-        elif 'id' in kwargs:
-            self.id = kwargs['id']
-        if len(args) >= 2:
-            self.width = args[1]
-        elif 'width' in kwargs:
-            self.width = kwargs['width']
-        if len(args) >= 3:
-            self.height = args[2]
-        elif 'height' in kwargs:
-            self.height = kwargs['height']
-        if len(args) >= 4:
-            self.x = args[3]
-        elif 'x' in kwargs:
-            self.x = kwargs['x']
-        if len(args) >= 5:
-            self.y = args[4]
-        elif 'y' in kwargs:
-            self.y = kwargs['y']
+        """Updates the attributes of the Rectangle instance.
+
+        Args:
+            *args: Variable length argument list. If non-empty, assigns
+                the first element to id, the second to width, the third to
+                height, the fourth to x, and the fifth to y.
+            **kwargs: Arbitrary keyword arguments. If args is empty,
+                assigns the value of 'id' to id, 'width' to width,
+                'height' to height, 'x' to x, and 'y' to y.
+        """
 
     def display(self):
-        for row in range(self.y):
-            print()
-        for row in range(self.height):
-            print(' ' * self.x + '#' * self.width)
+        """Prints a visual representation of the Rectangle instance using
+        the '#' character.
+        """
 
     def __str__(self):
-        return '[Rectangle] ({}) {}/{} - {}/{}'.format(
-            self.id, self.x, self.y, self.width, self.height)
+        """Returns a string representation of the Rectangle instance."""
 
     def area(self):
-        return self.width * self.height
+        """Returns the area of the Rectangle instance."""
 
     @property
     def width(self):
