@@ -2,6 +2,7 @@
 """Module for Base class"""
 import json
 import os
+import csv
 
 
 class Base:
@@ -47,6 +48,51 @@ class Base:
         if not list_dictionaries:
             return "[]"
         return json.dumps(list_dictionaries)
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """Serializes a list of instances to a CSV file.
+
+        Args:
+            list_objs (list): A list of instances to serialize.
+
+        The filename must be: <Class name>.csv - example: Rectangle.csv
+        """
+        filename = cls.__name__ + ".csv"
+        with open(filename, "w", newline="") as f:
+            if list_objs is None or len(list_objs) == 0:
+                f.write("[]")
+            else:
+                if cls.__name__ == "Rectangle":
+                    fieldnames = ["id", "width", "height", "x", "y"]
+                elif cls.__name__ == "Square":
+                    fieldnames = ["id", "size", "x", "y"]
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                for obj in list_objs:
+                    writer.writerow(obj.to_dictionary())
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """Deserializes a list of instances from a CSV file.
+
+        Returns:
+            list: A list of instances deserialized from the CSV file.
+
+        The filename must be: <Class name>.csv - example: Rectangle.csv
+        """
+        filename = cls.__name__ + ".csv"
+        if not os.path.exists(filename):
+            return []
+
+        with open(filename, "r") as f:
+            reader = csv.DictReader(f)
+            list_of_dicts = []
+            for row in reader:
+                for key, value in row.items():
+                    row[key] = int(value)
+                list_of_dicts.append(row)
+
+        return [cls.create(**d) for d in list_of_dicts]
 
     @classmethod
     def save_to_file(cls, list_objs):
