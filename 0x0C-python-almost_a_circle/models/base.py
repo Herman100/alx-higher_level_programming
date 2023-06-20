@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Module for Base class"""
-
 import json
+import os
 
 
 class Base:
@@ -20,6 +20,26 @@ class Base:
         else:
             Base.__nb_objects += 1
             self.id = Base.__nb_objects
+
+    @classmethod
+    def load_from_file(cls):
+        """Returns a list of instances.
+
+        The filename must be: <Class name>.json - example: Rectangle.json
+
+        Returns:
+            list: If the file doesn't exist, returns an empty list.
+                Otherwise, returns a list of instances of the class.
+        """
+        filename = cls.__name__ + ".json"
+        if not os.path.exists(filename):
+            return []
+
+        with open(filename, "r") as f:
+            json_str = f.read()
+
+        list_of_dicts = cls.from_json_string(json_str)
+        return [cls.create(**d) for d in list_of_dicts]
 
     @staticmethod
     def to_json_string(list_dictionaries):
