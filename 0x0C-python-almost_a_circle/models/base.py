@@ -5,7 +5,8 @@ import json
 
 
 class Base:
-    """Base class"""
+    """Base class for other classes in the project"""
+
     __nb_objects = 0
 
     def __init__(self, id=None):
@@ -22,32 +23,19 @@ class Base:
 
     @staticmethod
     def to_json_string(list_dictionaries):
-        """Returns the JSON string representation of list_dictionaries
-
-        Args:
-            list_dictionaries (list): a list of dictionaries
-
-        Returns:
-            str: the JSON string representation of list_dictionaries
-        """
-        if list_dictionaries is None or len(list_dictionaries) == 0:
+        """Returns the JSON string representation of list_dictionaries"""
+        if not list_dictionaries:
             return "[]"
-        else:
-            return json.dumps(list_dictionaries)
+        return json.dumps(list_dictionaries)
 
     @classmethod
     def save_to_file(cls, list_objs):
-        """Writes the JSON string representation of list_objs to a file
-
-        Args:
-            list_objs (list): a list of instances that inherit from Base
-        """
+        """Writes the JSON string representation of list_objs to a file"""
         filename = cls.__name__ + ".json"
         list_dicts = []
-        if list_objs is not None:
-            for obj in list_objs:
-                list_dicts.append(obj.to_dictionary())
-        with open(filename, 'w') as f:
+        if list_objs:
+            list_dicts = [o.to_dictionary() for o in list_objs]
+        with open(filename, "w") as f:
             f.write(cls.to_json_string(list_dicts))
 
     @staticmethod
@@ -64,3 +52,26 @@ class Base:
         if not json_string:
             return []
         return json.loads(json_string)
+
+    @classmethod
+    def create(cls, **dictionary):
+        """Returns an instance with all attributes already set.
+
+        Args:
+            **dictionary: A double pointer to a dictionary containing
+                key-value pairs of attributes to be set.
+
+        Returns:
+            Base: An instance of the class with all attributes set according
+                to the key-value pairs in dictionary.
+        """
+        # Create a dummy instance with default values for mandatory attributes
+        if cls.__name__ == 'Rectangle':
+            dummy = cls(1, 1)
+        elif cls.__name__ == 'Square':
+            dummy = cls(1)
+
+        # Update the dummy instance with the values in dictionary
+        dummy.update(**dictionary)
+
+        return dummy
