@@ -68,6 +68,10 @@ class Rectangle(Base):
         for row in range(self.height):
             print(' ' * self.x + '#' * self.width)
 
+    def to_csv_row(self):
+        """Returns a list of attribute values for serialization in CSV"""
+        return [self.id, self.width, self.height, self.x, self.y]
+
     def __str__(self):
         """Returns a string representation of the Rectangle instance."""
         return '[Rectangle] ({}) {}/{} - {}/{}'.format(
