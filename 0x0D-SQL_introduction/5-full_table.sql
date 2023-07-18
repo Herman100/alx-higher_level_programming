@@ -1,4 +1,4 @@
--- Print the full description of the first_table table
-SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_KEY
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = 'hbtn_0c_0' AND TABLE_NAME = 'first_table';
+-- Retrieve the full description of the first_table table
+SELECT column_name, data_type, character_maximum_length, is_nullable
+FROM information_schema.columns
+WHERE table_schema = 'hbtn_0c_0' AND table_name = 'first_table';
