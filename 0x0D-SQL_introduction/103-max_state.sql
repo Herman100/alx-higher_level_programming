@@ -2,4 +2,4 @@
 SELECT state, MAX(temperature) AS max_temperature
 FROM temperatures
 GROUP BY state
-LIMIT 3;
+ORDER BY state;
