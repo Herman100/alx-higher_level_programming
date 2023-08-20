@@ -8,7 +8,7 @@ if __name__ == '__main__':
     import MySQLdb
     import sys
 
-    username, password, database, state_name = argv[1:]
+    username, password, database, state_name = sys.argv[1:]
 
     conn = MySQLdb.connect(host='localhost', port=3306, user=username,
                            passwd=password, db=database)
