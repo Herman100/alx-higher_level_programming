@@ -1,29 +1,27 @@
 #!/usr/bin/python3
-"""Lists all states with a name matching the argument from the database
-hbtn_0e_0_usa.
+
+"""A python script that employs the module MySQLdb to list
+the data in a database
 """
 
-import MySQLdb
-from sys import argv
+if __name__ == '__main__':
+    import MySQLdb
+    import sys
 
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
+    state_name = sys.argv[4]
 
-if __name__ == "__main__":
-    db = MySQLdb.connect(
-        host="localhost",
-        user=argv[1],
-        passwd=argv[2],
-        db=argv[3],
-        port=3306)
+    conn = MySQLdb.connect(host='localhost', port=3306, user=username,
+                           passwd=password, db=database)
+    cur = conn.cursor()
+    query = "SELECT * FROM states WHERE BINARY name = '{}' ORDER BY id"
+    cur.execute(query.format(state_name))
+    table = cur.fetchall()
 
-    cursor = db.cursor()
-
-    cursor.execute(
-        "SELECT * FROM states WHERE name = %s ORDER BY id ASC", (argv[4],))
-
-    rows = cursor.fetchall()
-
-    for row in rows:
+    for row in table:
         print(row)
 
-    cursor.close()
-    db.close()
+    cur.close()
+    conn.close()
